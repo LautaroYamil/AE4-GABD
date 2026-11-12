@@ -1,0 +1,14 @@
+# Temporales de Office (aparecen mientras un archivo está abierto)
+~$*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store
+.env

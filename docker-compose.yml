@@ -1,0 +1,67 @@
+# Levanta el Data Warehouse (PostgreSQL) y el dashboard (Apache Superset).
+#   docker compose up -d --build      -> http://localhost:8088  (admin / admin)
+# La primera vez, PostgreSQL crea el DW y carga data/processed (tarda 1-2 minutos).
+# Para empezar de cero (borra la base):  docker compose down -v
+name: ae4-agro-nea
+
+services:
+  postgres:
+    image: postgres:16.4
+    container_name: ae4_postgres
+    environment:
+      POSTGRES_DB: dw_agro
+      POSTGRES_USER: dw_user
+      POSTGRES_PASSWORD: dw_pass
+    ports:
+      - "5433:5432"     # 5433 en la PC por si ya tienen otro PostgreSQL en 5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # Scripts que PostgreSQL ejecuta solo al crear la base (en orden alfabético)
+      - ./docker/postgres/00_crear_base_superset.sql:/docker-entrypoint-initdb.d/00_crear_base_superset.sql:ro
+      - ./sql/01_ddl.sql:/docker-entrypoint-initdb.d/01_ddl.sql:ro
+      - ./sql/02_carga.sql:/docker-entrypoint-initdb.d/02_carga.sql:ro
+      - ./sql/03_vistas.sql:/docker-entrypoint-initdb.d/03_vistas.sql:ro
+      - ./sql/04_permisos.sql:/docker-entrypoint-initdb.d/04_permisos.sql:ro
+      # CSV del ETL y scripts SQL (para correrlos a mano con psql)
+      - ./data/processed:/data/processed:ro
+      - ./sql:/sql:ro
+    healthcheck:
+      # "Sano" recién cuando el DW está cargado (por TCP: durante la carga inicial no escucha)
+      test: ["CMD-SHELL", "psql -h 127.0.0.1 -U dw_user -d dw_agro -tAc 'SELECT 1 FROM dw.fact_clima_diario LIMIT 1' | grep -q 1"]
+      interval: 10s
+      timeout: 10s
+      retries: 60
+      start_period: 30s
+
+  superset:
+    build: ./docker/superset
+    image: ae4-superset:4.1.4
+    container_name: ae4_superset
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SUPERSET_CONFIG_PATH: /app/docker/superset_config.py
+    ports:
+      - "8088:8088"
+    volumes:
+      - superset_home:/app/superset_home
+      - ./docker/superset/superset_config.py:/app/docker/superset_config.py:ro
+      - ./docker/superset/init_superset.sh:/app/docker/init_superset.sh:ro
+      - ./dashboard:/app/dashboard:ro
+    # tr quita los fin de línea de Windows (CRLF) por si el .sh se editó en Windows
+    command: ["/bin/bash", "-c", "tr -d '\\r' < /app/docker/init_superset.sh > /tmp/init.sh && bash /tmp/init.sh"]
+
+  # Opcional: correr el ETL dentro de Docker (sin instalar Python en la PC)
+  #   docker compose --profile etl run --rm etl
+  etl:
+    image: python:3.12.7-slim
+    profiles: ["etl"]
+    working_dir: /proyecto
+    volumes:
+      - .:/proyecto
+    command: ["bash", "-c", "pip install --quiet --root-user-action=ignore -r requirements.txt && python etl/run_etl.py"]
+
+volumes:
+  pgdata:
+  superset_home:

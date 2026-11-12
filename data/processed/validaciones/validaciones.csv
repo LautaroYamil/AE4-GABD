@@ -1,0 +1,46 @@
+etapa,indicador,valor,detalle
+limpieza estimaciones,filas leídas,160499.0,
+limpieza estimaciones,filas sin departamento (rechazadas),8.0,
+limpieza estimaciones,filas fuera del período (excluidas),89467.0,se carga 1995/1996 a 2024/2025
+limpieza estimaciones,filas de subcultivos (excluidas por doble conteo),12961.0,"soja 1ra, soja 2da, trigo candeal, poroto alubia, poroto negro, poroto otros"
+limpieza estimaciones,filas duplicadas (rechazadas),0.0,
+limpieza estimaciones,filas de cebada unidas (cervecera + forrajera),563.0,
+limpieza estimaciones,filas con todo en cero (excluidas),24.0,
+limpieza estimaciones,filas con pérdida total (se conservan),2533.0,
+limpieza estimaciones,filas con rendimiento imposible (rechazadas),4.0,
+limpieza estimaciones,filas limpias,57472.0,
+limpieza clima,filas leídas,693956.0,
+limpieza clima,días sin dato de lluvia (-999),0.0,
+limpieza clima,días repetidos (eliminados),0.0,
+limpieza clima,días con más de 300 mm (se conservan),3.0,
+limpieza clima,filas limpias,693956.0,
+dimensiones,dim_tiempo (días),10958.0,
+dimensiones,dim_departamento,423.0,78 del NEA
+dimensiones,dim_cultivo,33.0,
+merge estimaciones -> dim_departamento,filas antes del merge,57472.0,
+merge estimaciones -> dim_departamento,filas después del merge,57472.0,
+merge estimaciones -> dim_departamento,filas duplicadas después del merge,0.0,
+merge estimaciones -> dim_departamento,nulos introducidos (filas sin match),0.0,0 % de las filas
+merge estimaciones -> dim_departamento,porcentaje de filas con match,100.0,
+merge estimaciones -> dim_departamento,claves distintas sin match,0.0,
+merge estimaciones -> dim_cultivo,filas antes del merge,57472.0,
+merge estimaciones -> dim_cultivo,filas después del merge,57472.0,
+merge estimaciones -> dim_cultivo,filas duplicadas después del merge,0.0,
+merge estimaciones -> dim_cultivo,nulos introducidos (filas sin match),0.0,0 % de las filas
+merge estimaciones -> dim_cultivo,porcentaje de filas con match,100.0,
+merge estimaciones -> dim_cultivo,claves distintas sin match,0.0,
+fact_produccion,filas,57472.0,
+merge clima -> dim_departamento,filas antes del merge,693956.0,
+merge clima -> dim_departamento,filas después del merge,693956.0,
+merge clima -> dim_departamento,filas duplicadas después del merge,0.0,
+merge clima -> dim_departamento,nulos introducidos (filas sin match),18262.0,"2,63 % de las filas"
+merge clima -> dim_departamento,porcentaje de filas con match,97.368,
+merge clima -> dim_departamento,claves distintas sin match,2.0,
+fact_clima_diario,filas excluidas por departamento sin producción,18262.0,
+fact_clima_diario,filas,675694.0,
+merge producción NEA -> lluvia de la campaña,filas antes del merge,6697.0,
+merge producción NEA -> lluvia de la campaña,filas después del merge,6697.0,
+merge producción NEA -> lluvia de la campaña,filas duplicadas después del merge,0.0,
+merge producción NEA -> lluvia de la campaña,nulos introducidos (filas sin match),151.0,"2,25 % de las filas"
+merge producción NEA -> lluvia de la campaña,porcentaje de filas con match,97.745,
+merge producción NEA -> lluvia de la campaña,claves distintas sin match,4.0,

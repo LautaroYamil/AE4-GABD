@@ -1,0 +1,13 @@
+cultivo,anio,campania,provincia,provincia_id,departamento,departamento_id,superficie_sembrada_ha,superficie_cosechada_ha,produccion_tm,rendimiento_kgxha,motivo
+avena,1979,1979/1980,NULL,NULL,NULL,NULL,165,0,0,0,sin provincia ni departamento (texto NULL)
+avena,1979,1979/1980,NULL,NULL,NULL,NULL,35,0,0,0,sin provincia ni departamento (texto NULL)
+avena,1980,1980/1981,NULL,NULL,NULL,NULL,150,0,0,0,sin provincia ni departamento (texto NULL)
+avena,1980,1980/1981,NULL,NULL,NULL,NULL,30,0,0,0,sin provincia ni departamento (texto NULL)
+centeno,1979,1979/1980,NULL,NULL,NULL,NULL,20,0,0,0,sin provincia ni departamento (texto NULL)
+centeno,1980,1980/1981,NULL,NULL,NULL,NULL,30,0,0,0,sin provincia ni departamento (texto NULL)
+centeno,1980,1980/1981,NULL,NULL,NULL,NULL,10,0,0,0,sin provincia ni departamento (texto NULL)
+papa total,1979,1979/1980,NULL,NULL,NULL,NULL,10,10,60,6000,sin provincia ni departamento (texto NULL)
+alpiste,,2021/2022,Buenos Aires,06,Pergamino,06623,100,100,470,,rendimiento mayor a 4 veces la mediana del cultivo
+cebolla total,,1996/1997,Salta,66,Rosario de la Frontera,66140,3,3,900,,rendimiento mayor a 4 veces la mediana del cultivo
+mandarina,,1995/1996,Corrientes,18,Ituzaingó,18084,26,24,1224,,rendimiento mayor a 4 veces la mediana del cultivo
+soja total,,2011/2012,Córdoba,14,San Alberto,14126,112,112,2229,,rendimiento mayor a 4 veces la mediana del cultivo

@@ -1,0 +1,80 @@
+
+==============================================================================
+LIMPIEZA 1 - ESTIMACIONES AGRÍCOLAS
+==============================================================================
+  - filas leídas: 160.499
+  - filas sin departamento (rechazadas): 8
+  - filas fuera del período (excluidas): 89.467  (se carga 1995/1996 a 2024/2025)
+  - filas de subcultivos (excluidas por doble conteo): 12.961  (soja 1ra, soja 2da, trigo candeal, poroto alubia, poroto negro, poroto otros)
+  - filas duplicadas (rechazadas): 0
+  - filas de cebada unidas (cervecera + forrajera): 563
+  - filas con todo en cero (excluidas): 24
+  - filas con pérdida total (se conservan): 2.533
+  - filas con rendimiento imposible (rechazadas): 4
+  - filas limpias: 57.472
+
+==============================================================================
+LIMPIEZA 2 - CLIMA NASA POWER
+==============================================================================
+  - filas leídas: 693.956
+  - días sin dato de lluvia (-999): 0
+  - días repetidos (eliminados): 0
+  - días con más de 300 mm (se conservan): 3
+  - filas limpias: 693.956
+
+==============================================================================
+DIMENSIONES
+==============================================================================
+  - dim_tiempo (días): 10.958
+  - dim_departamento: 423  (78 del NEA)
+  - dim_cultivo: 33
+
+==============================================================================
+TRANSFORMACIÓN - FACT_PRODUCCION
+==============================================================================
+
+Validación post-merge: estimaciones -> dim_departamento
+  - filas antes del merge: 57.472
+  - filas después del merge: 57.472
+  - filas duplicadas después del merge: 0
+  - nulos introducidos (filas sin match): 0  (0 % de las filas)
+  - porcentaje de filas con match: 100
+  - claves distintas sin match: 0
+
+Validación post-merge: estimaciones -> dim_cultivo
+  - filas antes del merge: 57.472
+  - filas después del merge: 57.472
+  - filas duplicadas después del merge: 0
+  - nulos introducidos (filas sin match): 0  (0 % de las filas)
+  - porcentaje de filas con match: 100
+  - claves distintas sin match: 0
+  - filas: 57.472
+
+==============================================================================
+TRANSFORMACIÓN - FACT_CLIMA_DIARIO
+==============================================================================
+
+Validación post-merge: clima -> dim_departamento
+  - filas antes del merge: 693.956
+  - filas después del merge: 693.956
+  - filas duplicadas después del merge: 0
+  - nulos introducidos (filas sin match): 18.262  (2,63 % de las filas)
+  - porcentaje de filas con match: 97,37
+  - claves distintas sin match: 2
+  - filas excluidas por departamento sin producción: 18.262
+  - filas: 675.694
+
+==============================================================================
+VALIDACIÓN DEL CRUCE PRODUCCIÓN - LLUVIA
+==============================================================================
+
+Validación post-merge: producción NEA -> lluvia de la campaña
+  - filas antes del merge: 6.697
+  - filas después del merge: 6.697
+  - filas duplicadas después del merge: 0
+  - nulos introducidos (filas sin match): 151  (2,25 % de las filas)
+  - porcentaje de filas con match: 97,75
+  - claves distintas sin match: 4
+  departamentos sin lluvia: ['18000', '22000', '34000', '54000'] (son los 'sin definir': no tienen un punto para pedirle el clima a la NASA)
+
+ETL terminado en 5 segundos.
